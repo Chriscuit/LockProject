@@ -11,6 +11,7 @@ import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -19,6 +20,16 @@ public class MainActivity extends AppCompatActivity {
 
     String save_pattern_key = "pattern_code";
     String final_pattern = "";
+
+    // relevant data collection
+    int incorrect_attempts = 0;
+    int correct_attempts = 0;
+    int total_attempts = incorrect_attempts + correct_attempts;
+//    int percentage_correct_attempts = correct_attempts/total_attempts;
+    ArrayList<String> incorrect_attempt_list;
+    ArrayList<Integer> correct_order_list;
+    ArrayList<Integer> correct_node_list;
+
 
     PatternLockView mPatternLockView;
     @Override
@@ -46,10 +57,15 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(List<PatternLockView.Dot> pattern) {
                     final_pattern = PatternLockUtils.patternToString(mPatternLockView, pattern);
-                    if(final_pattern.equals(save_pattern))
+                    if(final_pattern.equals(save_pattern)) {
                         Toast.makeText(MainActivity.this, "Password correct!", Toast.LENGTH_SHORT).show();
-                    else
+//                        android.os.Process.killProcess(android.os.Process.myPid()); // use this to close app after unlock
+                    }
+                    else {
                         Toast.makeText(MainActivity.this, "Password incorrect!", Toast.LENGTH_SHORT).show();
+                        incorrect_attempts++;
+                        Log.d(getClass().getName(), "User has gotten pattern wrong " + Integer.toString(incorrect_attempts) + " times");
+                    }
                 }
 
                 @Override

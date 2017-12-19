@@ -1,5 +1,6 @@
 package com.lockproject.thomaz.lockproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,7 +12,6 @@ import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
     int correct_attempts = 0;
     int total_attempts = incorrect_attempts + correct_attempts;
 //    int percentage_correct_attempts = correct_attempts/total_attempts;
-    ArrayList<String> incorrect_attempt_list;
-    ArrayList<Integer> correct_order_list;
-    ArrayList<Integer> correct_node_list;
+//    ArrayList<String> incorrect_attempt_list;
+//    ArrayList<Integer> correct_order_list;
+//    ArrayList<Integer> correct_node_list;
 
 
     PatternLockView mPatternLockView;
@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
+
+        Intent svc = new Intent(this, OverlayShowingService.class);
+        startService(svc);
 
         Paper.init(this);
         final String save_pattern = Paper.book().read(save_pattern_key);
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     if(final_pattern.equals(save_pattern)) {
                         Toast.makeText(MainActivity.this, "Password correct!", Toast.LENGTH_SHORT).show();
 //                        android.os.Process.killProcess(android.os.Process.myPid()); // use this to close app after unlock
+                        moveTaskToBack(true);
                     }
                     else {
                         Toast.makeText(MainActivity.this, "Password incorrect!", Toast.LENGTH_SHORT).show();
@@ -113,4 +117,14 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
+//    public int onStartCommand(Intent intent, int flag, int startIs){
+//
+//        // Detect screen off
+//        IntentFilter filter=new IntentFilter(Intent.ACTION_SCREEN_ON);
+//        filter.addAction(Intent.ACTION_SCREEN_OFF);
+//        MyReceiver sReceiver = new MyReceiver();
+//        registerReceiver(sReceiver,filter);
+//        return  START_STICKY;
+//    }
 }

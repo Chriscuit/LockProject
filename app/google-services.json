@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "514433077482",
+    "firebase_url": "https://lockproject-5022e.firebaseio.com",
+    "project_id": "lockproject-5022e",
+    "storage_bucket": "lockproject-5022e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514433077482:android:b1a0a2babfb12070",
+        "android_client_info": {
+          "package_name": "com.lockproject.thomaz.lockproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514433077482-8ldrenvfq48cgkutrl3hgbrfc4nfrcgn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lockproject.thomaz.lockproject",
+            "certificate_hash": "ed614dc775a00dd4a389ba68fbeebdd9cd5b37b3"
+          }
+        },
+        {
+          "client_id": "514433077482-kos2b6l2puiml73qb0as1rg62s091k1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcNIExORaJLHm5BkjiiLILRQKkkIWAFXI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514433077482-kos2b6l2puiml73qb0as1rg62s091k1o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

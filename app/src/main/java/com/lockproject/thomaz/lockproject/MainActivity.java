@@ -11,25 +11,26 @@ import android.widget.Toast;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.paperdb.Paper;
+
 
 public class MainActivity extends AppCompatActivity {
 
     String save_pattern_key = "pattern_code";
     String final_pattern = "";
 
-    // relevant data collection
-    int incorrect_attempts = 0;
-    int correct_attempts = 0;
-    int total_attempts = incorrect_attempts + correct_attempts;
-//    int percentage_correct_attempts = correct_attempts/total_attempts;
-//    ArrayList<String> incorrect_attempt_list;
-//    ArrayList<Integer> correct_order_list;
-//    ArrayList<Integer> correct_node_list;
+    // to keep track of data
+    static Map<String, Attempt> attempts = new HashMap<>();
+    static Integer num_attmepts = 0;
 
+//    private DatabaseReference ref;
 
     PatternLockView mPatternLockView;
     @Override
@@ -39,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent svc = new Intent(this, OverlayShowingService.class);
         startService(svc);
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+
+        final DatabaseReference attemptRef = ref.child("attempts");
 
         Paper.init(this);
         final String save_pattern = Paper.book().read(save_pattern_key);
@@ -61,14 +67,25 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(List<PatternLockView.Dot> pattern) {
                     final_pattern = PatternLockUtils.patternToString(mPatternLockView, pattern);
                     if(final_pattern.equals(save_pattern)) {
+
                         Toast.makeText(MainActivity.this, "Password correct!", Toast.LENGTH_SHORT).show();
+
+                        num_attmepts++;
+                        String attempt_name = "Attempt " + num_attmepts.toString();
+                        attempts.put(attempt_name, new Attempt(true, save_pattern, final_pattern));
+                        attemptRef.setValue(attempts);
+
 //                        android.os.Process.killProcess(android.os.Process.myPid()); // use this to close app after unlock
                         moveTaskToBack(true);
+
                     }
                     else {
+                        num_attmepts++;
+                        String attempt_name = "Attempt " + num_attmepts.toString();
+                        attempts.put(attempt_name, new Attempt(false, save_pattern, final_pattern));
+                        attemptRef.setValue(attempts);
+
                         Toast.makeText(MainActivity.this, "Password incorrect!", Toast.LENGTH_SHORT).show();
-                        incorrect_attempts++;
-                        Log.d(getClass().getName(), "User has gotten pattern wrong " + Integer.toString(incorrect_attempts) + " times");
                     }
                 }
 

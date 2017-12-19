@@ -16,14 +16,13 @@ public class MyReceiver extends BroadcastReceiver {
         if(intent.getAction().equals(Intent.ACTION_SCREEN_ON)){
 
             Log.d("Log", "The screen is on.");
-
-            Intent i = new Intent(context, MainActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
         }
 
         else{
             Log.d("Log", "The screen is off.");
+
+            Intent i = new Intent(context, MainActivity.class);
+            context.startActivity(i);
         }
 
     }
